@@ -1,0 +1,35 @@
+﻿@page
+@model library.Pages.Publishers.ShowPublishers
+
+@{
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Wydawcy";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div class="row">
+    <table>
+        <thead>
+        <tr><th>Nazwa</th></tr>
+        </thead>
+        <tbody>
+        @foreach (var publisher in Model.Publishers)
+        {
+            <tr>
+                <td>
+                    @publisher.Name
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <a class="btn btn-outline-primary mx-2" href ="/Publishers/NewPublisher">Dodaj nowego</a>
+</div>
+</body>
+</html>
