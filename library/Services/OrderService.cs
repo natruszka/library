@@ -28,7 +28,7 @@ public class OrderService
                 MemberId = reader.GetInt32(0),
                 BookId = reader.GetInt32(1),
                 OrderDate = reader.GetDateTime(2),
-                Status = (OrderStatus)reader.GetInt32(3),
+                EndDate =reader.GetDateTime(3),
                 Id = reader.GetInt32(4)
             });
         }
@@ -54,7 +54,7 @@ public class OrderService
             MemberId = reader.GetInt32(0),
             BookId = reader.GetInt32(1),
             OrderDate = reader.GetDateTime(2),
-            Status = (OrderStatus) reader.GetInt32(3),
+            EndDate =reader.GetDateTime(3),
             Id = reader.GetInt32(4)
         };
     }

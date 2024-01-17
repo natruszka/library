@@ -1,0 +1,24 @@
+﻿@page
+@model library.Pages.Authors.NewAuthor
+
+@{
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Nowy autor";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div>
+    <form method="post">
+        <input type="text" placeholder="Imię" name="FirstName" class="form-control"/>
+        <input type="text" placeholder="Nazwisko"  name="LastName" class="form-control"/>
+        <input type="submit" class="btn btn-primary" value="Dodaj"/>
+    </form>
+</div>
+</body>
+</html>

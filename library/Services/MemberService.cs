@@ -27,23 +27,30 @@ public class MemberService
                 FirstName = reader.GetString(1),
                 LastName = reader.GetString(2),
                 IsStaff = reader.GetBoolean(3),
-                Fine = reader.GetDecimal(4),
+                Fine = reader.IsDBNull(4) ? 0 : reader.GetDecimal(4),
                 IsBanned = reader.GetBoolean(5)
             });
         }
 
         return result;
     }
-
-    public async Task AddNewMember(MemberDto memberDto)
+    
+    public async Task<string> AddNewMember(MemberDto memberDto, RegisterDto registerDto)
     {
-        var command = new NpgsqlCommand($"INSERT INTO uzytkownicy(" +
-                                        $"uzytkownik_imie, uzytkownik_nazwisko, czy_pracownik, kara, czy_zbanowany) " +
-                                        $"VALUES ('{memberDto.FirstName}', '{memberDto.LastName}', '{memberDto.IsStaff}'" +
-                                        $",0 , false);");
-        await command.ExecuteNonQueryAsync();
+        var command = new NpgsqlCommand(
+            $"SELECT dodaj_uzytkownika('{registerDto.Username}', '{registerDto.Password}'," +
+            $" '{memberDto.FirstName}','{memberDto.LastName}', {memberDto.IsStaff}", _dbContext.GetConnection());
+        var res = await command.ExecuteScalarAsync() ?? throw new NpgsqlException("Something went wrong.");
+        return (string) res;
     }
-
+    
+    public async Task<Member> Login(RegisterDto registerDto)
+    {
+        var command = new NpgsqlCommand($"SELECT uzytkownik_id FROM login WHERE login = '{registerDto.Username}' AND password = '{registerDto.Password}'",
+            _dbContext.GetConnection());
+        var id = await command.ExecuteScalarAsync() ?? throw new NpgsqlException("Could not get user");
+        return GetMemberById((int)id);
+    }
     public Member GetMemberById(int memberId)
     {
         var command = new NpgsqlCommand($"SELECT * FROM uzytkownicy WHERE uzytkownik_id = {memberId}",
@@ -55,7 +62,7 @@ public class MemberService
             FirstName = reader.GetString(1),
             LastName = reader.GetString(2),
             IsStaff = reader.GetBoolean(3),
-            Fine = reader.GetDecimal(4),
+            Fine = reader.IsDBNull(4) ? 0 : reader.GetDecimal(4),
             IsBanned = reader.GetBoolean(5)
         };
     }

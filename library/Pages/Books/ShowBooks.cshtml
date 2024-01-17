@@ -1,0 +1,59 @@
+﻿@page
+@model library.Pages.Books.ShowBooks
+
+@{
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Ksiazki";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div>
+    <table class="table-striped">
+        <thead>
+        <tr>
+            <th>Tytuł</th>
+            <th>Imie Autora</th>
+            <th>Nazwisko Autora</th>
+            <th>Gatunek</th>
+            <th>Wydawnictwo</th>
+            <th>Edycja</th>
+            <th>Czy wypożyczona?</th>
+            <th>Czy zamówiona?</th>
+            <th>Ocena</th>
+            <th>Ilość ocen</th>
+
+        </tr>
+        </thead>>
+        <tbody>
+        @foreach (var item in Model.BookViews)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td>@item.Author.FirstName</td>
+                <td>@item.Author.LastName</td>
+                <td>@item.GenreName</td>
+                <td>@item.PublisherName</td>
+                <td>@item.Edition</td>
+                <td>@item.IsBorrowed</td>
+                <td>@item.IsOrdered</td>
+                <td>@item.AverageRating.ToString("0.##")</td>
+                <td>@item.RatingsCount</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <br/>
+    <form method="post">
+        <input type="button" class="btn btn-primary" value="Dodaj nowy"/>
+    </form>
+</div>
+</body>
+</html>

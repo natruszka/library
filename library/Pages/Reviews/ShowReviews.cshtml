@@ -1,0 +1,46 @@
+﻿@page
+@model library.Pages.Reviews.ShowReviews
+
+@{
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Recenzje";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div class="row">
+    <table class="table-striped">
+            <thead>
+            <tr>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Tytuł</th>
+                <th>Ocena</th>
+                <th>Treść</th>
+                <th>Data</th>
+            </tr>
+            </thead>>
+            <tbody>
+            @foreach (var item in Model.Reviews)
+            {
+                <tr>
+                    <td>
+                        @item.FirstName
+                    </td>
+                    <td>@item.LastName</td>
+                    <td>@item.Title</td>
+                    <td>@item.Rating</td>
+                    <td>@item.Text</td>
+                    <td>@item.Date.ToString("MM/dd/yyyy H:mm")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+</div>
+</body>
+</html>

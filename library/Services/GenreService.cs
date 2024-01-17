@@ -26,7 +26,7 @@ public class GenreService : IGenreService
             {
                 Id = reader.GetInt32(0),
                 Name = reader.GetString(1),
-                Description = reader.GetString(2)
+                Description = reader.IsDBNull(2) ? string.Empty : reader.GetString(2)
             });
         }
         return result;
@@ -39,7 +39,7 @@ public class GenreService : IGenreService
         using var reader = command.ExecuteReader();
         while (reader.Read())
         {
-            result.Add(reader.GetString(1));
+            result.Add(reader.IsDBNull(2) ? string.Empty : reader.GetString(2));
         }
         return result;
     }

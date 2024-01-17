@@ -1,0 +1,29 @@
+﻿@page
+@model library.Pages.Books.NewBook
+
+@{
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Nowa książka";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div>
+    <form method="post">
+        <input type="text" placeholder="Tytuł" name="Title" class="form-control"/>
+        <input type="text" placeholder="Imię autora" name="AuthorName" class="form-control"/>
+        <input type="text" placeholder="Nazwisko autora"  name="AuthorSurName" class="form-control"/>
+        <input type="text" placeholder="Gatunek"  name="Genre" class="form-control"/>
+        <input type="text" placeholder="Wydawnictwo"  name="Publisher" class="form-control"/>
+        <input type="number" placeholder="Edycja"  name="Edition" class="form-control"/>
+        <input type="text" placeholder="Isbn"  name="Isbn" class="form-control"/>
+        <input type="submit" class="btn btn-primary" value="Dodaj"/>
+    </form>
+</div>
+</body>
+</html>

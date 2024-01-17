@@ -1,0 +1,31 @@
+﻿@page
+@model library.Pages.Register.Register
+
+@{
+    ViewData["Title"] = "Rejestracja";
+    Layout = "Shared/_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div class="row">
+    <form method="post" class="d-flex flex-column gap-2 col-4">
+        <input type="text" asp-for="NewMember.FirstName" placeholder="Imie" name="FirstName" class="form-control"/>
+        <input type="text" asp-for="NewMember.LastName" placeholder="Nazwisko" name="LastName" class="form-control"/>
+        <label for="IsStaff" class="form-check-label">Pracownik</label>
+        <input type="checkbox" asp-for="NewMember.IsStaff" name="IsStaff" id="IsStaff" class="form-check-input"/>
+        <input type="text" asp-for="NewRegister.Username" name="Username" placeholder="Nazwa użytkownika" class="form-control"/>
+        <input type="password" asp-for="NewRegister.Password" name="Password" placeholder="Hasło" class="form-control"/>
+        <input type="submit" class="btn btn-primary" value="Zarejestruj"/>
+    </form>
+    <div class="col-4">
+        <img src="maxwell-maxwell-cat.gif" alt="gif"/>
+    </div>
+</div>
+</body>
+</html>

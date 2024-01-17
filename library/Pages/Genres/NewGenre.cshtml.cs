@@ -20,10 +20,10 @@ public class NewGenre : PageModel
         
     }
 
-    public RedirectToPageResult OnPost()
+    public async Task<IActionResult> OnPost()
     {
-        _genreService.AddNewGenre(NewGenreDto);
-        return RedirectToPage("Genres/ShowGenres");
+        await _genreService.AddNewGenre(NewGenreDto);
+        return RedirectToPage("/Genres/ShowGenres");
     }
     
 }

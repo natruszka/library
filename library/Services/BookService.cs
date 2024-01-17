@@ -36,8 +36,8 @@ public class BookService : IBookService
                     Edition = reader.GetInt32(6),
                     IsBorrowed = reader.GetBoolean(7),
                     IsOrdered = reader.GetBoolean(8),
-                    AverageRating = reader.GetDecimal(9),
-                    RatingsCount = reader.GetInt32(10)
+                    AverageRating = reader.IsDBNull(9)? 0: reader.GetDecimal(9),
+                    RatingsCount = reader.IsDBNull(10)?0: reader.GetInt32(10)
                 });
             }
 
@@ -47,7 +47,11 @@ public class BookService : IBookService
 
     public async Task AddNewBook(BookDto bookDto)
     {
-        
+        var command = new NpgsqlCommand($"SELECT public." +
+                                        $"dodaj_ksiazke('{bookDto.Title}', '{bookDto.AuthorName}', '{bookDto.AuthorSurName}'," +
+                                        $" '{bookDto.Genre}', '{bookDto.Publisher}',{bookDto.Edition}," +
+                                        $" '{bookDto.Isbn}')", _context.GetConnection());
+        var res = await command.ExecuteScalarAsync() ?? throw new NpgsqlException("Could not add book.");
     }
     
 }

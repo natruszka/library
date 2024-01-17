@@ -1,0 +1,41 @@
+﻿@page
+@model library.Pages.Authors.ShowAuthors
+
+@{
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Autorzy";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div class="row">
+    <table class="table-striped">
+        <thead>
+        <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+        </tr>
+        </thead>>
+        <tbody>
+        @foreach (var item in Model.Authors)
+        {
+            <tr>
+                <td>
+                    @item.FirstName
+                </td>
+                <td>@item.LastName</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+   <form method="post">
+           <input type="button" class="btn btn-primary" value="Dodaj nowy"/>
+   </form>
+</div>
+</body>
+</html>
