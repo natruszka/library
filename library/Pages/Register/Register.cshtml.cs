@@ -12,13 +12,11 @@ namespace library.Pages.Register;
 [IgnoreAntiforgeryToken(Order = 1001)]
 public class Register : PageModel
 {
-    [TempData]
-    public string FormResult { get; set; }
     [BindProperty] public RegisterDto NewRegister { get; set; } = null!;
     [BindProperty] public MemberDto NewMember { get; set; } = null!;
     private readonly MemberService _memberService;
 
-    public Register(MemberService memberService, INotyfService toastNotifService)
+    public Register(MemberService memberService)
     {
         _memberService = memberService;
 
@@ -31,12 +29,12 @@ public class Register : PageModel
     {
         try
         {
-            await _memberService.AddNewMember(NewMember, NewRegister);
+            var id = await _memberService.AddNewMember(NewMember, NewRegister);
             var claims = new List<Claim>()
             {
-                // new(ClaimTypes.Name, result.UserName),
-                // new(ClaimTypes.GivenName, result.DisplayName),
-                // new(ClaimTypes.Sid, result.Id)
+                new(ClaimTypes.Name, NewRegister.Username),
+                new(ClaimTypes.Sid, id),
+                new("Role", NewMember.IsStaff.ToString())
             };
             var identity = new ClaimsIdentity(claims, "AuthCookie");
             ClaimsPrincipal claimsPrincipal = new(identity);

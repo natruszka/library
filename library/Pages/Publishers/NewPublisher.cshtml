@@ -13,6 +13,7 @@
     <title></title>
 </head>
 <body>
+@{await Html.RenderPartialAsync("_NavigationPartial");}
 <div>
     <form method="post">
         <input type="text" placeholder="Nowy wydawca" name="Name" class="form-control"/>

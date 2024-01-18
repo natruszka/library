@@ -1,5 +1,5 @@
 ﻿@page
-@model library.Pages.Books.ShowBooks
+@model library.Pages.Books.ShowDetailedBooks
 
 @{
     Layout = "Shared/_Layout";
@@ -18,21 +18,24 @@
     <table class="table-striped">
         <thead>
         <tr>
+            <th>Id</th>
             <th>Tytuł</th>
             <th>Imie Autora</th>
             <th>Nazwisko Autora</th>
             <th>Gatunek</th>
             <th>Wydawnictwo</th>
             <th>Edycja</th>
-            <th>Ocena</th>
-            <th>Ilość ocen</th>
+            <th>Czy zamówiona?</th>
+            <th>Czy zarezerwowana?</th>
+            <th>ISBN</th>
 
         </tr>
         </thead>>
         <tbody>
-        @foreach (var item in Model.BookViews)
+        @foreach (var item in Model.BookDetailedViews)
         {
             <tr>
+                <td>@item.Id</td>
                 <td>
                     @item.Title
                 </td>
@@ -41,18 +44,13 @@
                 <td>@item.GenreName</td>
                 <td>@item.PublisherName</td>
                 <td>@item.Edition</td>
-                <td>@item.AverageRating.ToString("0.##")</td>
-                <td>@item.RatingsCount</td>
-                <td> <a class="btn btn-outline-primary mx-2" href="/Reviews/AddReview?isbn=@item.Isbn">Dodaj recenzję</a></td>
-                <td> <a class="btn btn-outline-primary mx-2" href="/Borrows/AddBorrow?isbn=@item.Isbn">Wypożycz</a></td>
-                <td> <a class="btn btn-outline-primary mx-2" href="/Orders/AddOrder?isbn=@item.Isbn">Zarezerwuj</a></td>
-                <td> <a class="btn btn-outline-primary mx-2" href="/Books/BookDetails?isbn=@item.Isbn">Detale</a></td>
+                <td>@item.IsOrdered</td>
+                <td>@item.IsBorrowed</td>
+                <td>@item.Isbn</td>
             </tr>
         }
         </tbody>
     </table>
-    <br/>
-    <a class="btn btn-outline-primary mx-2" href="/Books/NewBook">Dodaj nowego</a>
 </div>
 </body>
 </html>

@@ -2,7 +2,8 @@
 @model library.Pages.Orders.ShowOrders
 
 @{
-    Layout = null;
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Rezerwacje";
 }
 
 <!DOCTYPE html>
@@ -12,8 +13,34 @@
     <title></title>
 </head>
 <body>
+@{await Html.RenderPartialAsync("_NavigationPartial");}
 <div>
-    
+    <table class="table-striped">
+        <thead>
+        <tr>
+            <th>Tytuł</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Data rezerwacji</th>
+            <th>Wygaśnięcie rezerwacji</th>
+            <th></th>
+        </tr>
+        </thead>>
+        <tbody>
+        @foreach (var item in Model.OrderViews)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.OrderDate.ToString("MM/dd/yyyy")</td>
+                <td>@item.EndDate.ToString("MM/dd/yyyy")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

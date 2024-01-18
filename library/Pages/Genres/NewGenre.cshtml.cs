@@ -1,11 +1,13 @@
 ﻿using library.DTOs;
 using library.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace library.Pages.Genres;
 
 [IgnoreAntiforgeryToken(Order = 1001)]
+[Authorize(Policy = "IsStaff")]
 public class NewGenre : PageModel
 {
     [BindProperty] public GenreDto NewGenreDto { get; set; } = new();

@@ -1,13 +1,12 @@
-﻿using System.Data;
-using library.Database;
+﻿using library.Database;
 using library.DTOs;
 using library.Entities;
-using library.Enums;
+using library.Services.Interfaces;
 using Npgsql;
 
 namespace library.Services;
 
-public class OrderService
+public class OrderService : IOrderService
 {
     private readonly DbContext _dbContext;
 
@@ -30,6 +29,26 @@ public class OrderService
                 OrderDate = reader.GetDateTime(2),
                 EndDate =reader.GetDateTime(3),
                 Id = reader.GetInt32(4)
+            });
+        }
+        return result;
+    }
+
+    public ICollection<OrderView> GetOrderViews()
+    {
+        var command = new NpgsqlCommand("SELECT * FROM zamowienia_view", _dbContext.GetConnection());
+        var result = new List<OrderView>();
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            result.Add(new OrderView()
+            {
+                Id = reader.GetInt32(0),
+                Title = reader.GetString(1),
+                FirstName = reader.GetString(2),
+                LastName = reader.GetString(3),
+                OrderDate = reader.GetDateTime(4),
+                EndDate =reader.GetDateTime(5),
             });
         }
         return result;

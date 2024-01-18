@@ -38,8 +38,8 @@ public class ReviewService : IReviewService
     public async Task AddNewReview(ReviewDto reviewDto)
     {
         var command = new NpgsqlCommand($"INSERT INTO recenzje" +
-                                        $"(uzytkownik_id, ocena, recenzja_tekst, recenzja_data, isbn)" +
-                                        $"VALUES ({reviewDto.MemberId}, {reviewDto.Rating}, '{reviewDto.ReviewText}', '{reviewDto.ReviewDate}', '{reviewDto.Isbn}');",
+                                        $"(uzytkownik_id, ocena, recenzja_tekst, isbn)" +
+                                        $"VALUES ({reviewDto.MemberId}, {reviewDto.Rating}, '{reviewDto.ReviewText}', '{reviewDto.Isbn}');",
             _dbContext.GetConnection());
         await command.ExecuteNonQueryAsync();
     }

@@ -1,10 +1,12 @@
 ﻿using library.DTOs;
 using library.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Npgsql;
 
 namespace library.Pages.Books;
+[Authorize(Policy = "IsStaff")]
 [IgnoreAntiforgeryToken(Order = 1001)]
 
 public class NewBook : PageModel

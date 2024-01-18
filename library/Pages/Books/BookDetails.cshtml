@@ -1,0 +1,63 @@
+﻿@page
+@model library.Pages.Books.BookDetails
+
+@{
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Detale";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+@{await Html.RenderPartialAsync("_NavigationPartial");}
+<div>
+    <table class="table-striped">
+            <thead>
+            <tr>
+                <th>Tytuł</th>
+                <th>Imie Autora</th>
+                <th>Nazwisko Autora</th>
+                <th>Gatunek</th>
+                <th>Wydawnictwo</th>
+                <th>Edycja</th>
+                <th>ISBN</th>
+            </tr>
+            </thead>>
+            <tbody>
+            <tr>
+                <td>@Model.BookMoreInfos.First().Title</td>
+                <td>@Model.BookMoreInfos.First().Author.FirstName</td>
+                <td>@Model.BookMoreInfos.First().Author.LastName</td>
+                <td>@Model.BookMoreInfos.First().GenreName</td>
+                <td>@Model.BookMoreInfos.First().PublisherName</td>
+                <td>@Model.BookMoreInfos.First().Edition</td>
+                <td>@Model.BookMoreInfos.First().Isbn</td>
+            </tr>
+            </tbody>
+    </table>
+    <table class="table-striped">
+        <thead>
+        <tr>
+            <th>Opinia</th>
+            <th>Treść</th>
+            <th>Użytkownik</th>
+        </tr>
+        </thead>>
+        <tbody>
+        @foreach (var item in Model.BookMoreInfos)
+        {
+            <tr>
+                <td>@item.Rating</td>
+                <td>@item.ReviewText</td>
+                <td>@item.Username</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

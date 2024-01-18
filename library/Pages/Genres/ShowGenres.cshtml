@@ -13,8 +13,8 @@
     <title></title>
 </head>
 <body>
-
-<div class="row">
+@{await Html.RenderPartialAsync("_NavigationPartial");}
+<div>
     <table class="table-striped">
         <thead>
         <tr>
@@ -34,9 +34,7 @@
         }
         </tbody>
     </table>
-    <form method="post">
-        <input type="button" class="btn btn-primary" value="Dodaj nowy"/>
-        </form>
+    <a class="btn btn-outline-primary mx-2" href="/Genres/NewGenre">Dodaj nowego</a>
 </div>
 </body>
 </html>

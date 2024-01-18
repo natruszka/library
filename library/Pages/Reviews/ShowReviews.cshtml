@@ -13,34 +13,35 @@
     <title></title>
 </head>
 <body>
+@{await Html.RenderPartialAsync("_NavigationPartial");}
 <div class="row">
     <table class="table-striped">
-            <thead>
+        <thead>
+        <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Tytuł</th>
+            <th>Ocena</th>
+            <th>Treść</th>
+            <th>Data</th>
+        </tr>
+        </thead>>
+        <tbody>
+        @foreach (var item in Model.Reviews)
+        {
             <tr>
-                <th>Imię</th>
-                <th>Nazwisko</th>
-                <th>Tytuł</th>
-                <th>Ocena</th>
-                <th>Treść</th>
-                <th>Data</th>
+                <td>
+                    @item.FirstName
+                </td>
+                <td>@item.LastName</td>
+                <td>@item.Title</td>
+                <td>@item.Rating</td>
+                <td>@item.Text</td>
+                <td>@item.Date.ToString("MM/dd/yyyy H:mm")</td>
             </tr>
-            </thead>>
-            <tbody>
-            @foreach (var item in Model.Reviews)
-            {
-                <tr>
-                    <td>
-                        @item.FirstName
-                    </td>
-                    <td>@item.LastName</td>
-                    <td>@item.Title</td>
-                    <td>@item.Rating</td>
-                    <td>@item.Text</td>
-                    <td>@item.Date.ToString("MM/dd/yyyy H:mm")</td>
-                </tr>
-            }
-            </tbody>
-        </table>
+        }
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

@@ -2,7 +2,8 @@
 @model library.Pages.Members.ShowMembers
 
 @{
-    Layout = null;
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Użytkownicy";
 }
 
 <!DOCTYPE html>
@@ -12,8 +13,34 @@
     <title></title>
 </head>
 <body>
+@{await Html.RenderPartialAsync("_NavigationPartial");}
 <div>
-    
+    <table class="table-striped">
+        <thead>
+        <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Pracownik</th>
+            <th>Kara [zł]</th>
+            <th>Zbanowany</th>
+            <th></th>
+        </tr>
+        </thead>>
+        <tbody>
+        @foreach (var item in Model.Members)
+        {
+            <tr>
+                <td>
+                    @item.FirstName
+                </td>
+                <td>@item.LastName</td>
+                <td>@item.IsStaff</td>
+                <td>@item.Fine.ToString("0.##")</td>
+                <td>@item.IsBanned</td>
+            </tr>
+        }
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

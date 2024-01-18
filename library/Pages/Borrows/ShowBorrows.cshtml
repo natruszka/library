@@ -2,7 +2,8 @@
 @model library.Pages.Borrows.ShowBorrows
 
 @{
-    Layout = null;
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Rezerwacje";
 }
 
 <!DOCTYPE html>
@@ -12,8 +13,35 @@
     <title></title>
 </head>
 <body>
+@{await Html.RenderPartialAsync("_NavigationPartial");}
 <div>
-    
+    <table class="table-striped">
+        <thead>
+        <tr>
+            <th>Tytuł</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Data rezerwacji</th>
+            <th>Wygaśnięcie rezerwacji</th>
+            <th></th>
+        </tr>
+        </thead>>
+        <tbody>
+        @foreach (var item in Model.BorrowViews)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.BorrowDate.ToString("MM/dd/yyyy")</td>
+                <td>@item.ReturnDate?.ToString("MM/dd/yyyy")</td>
+                <td>@item.DueDate.ToString("MM/dd/yyyy")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

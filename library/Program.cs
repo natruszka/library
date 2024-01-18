@@ -9,6 +9,8 @@ builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IBorrowService, BorrowService>();
 builder.Services.AddScoped<MemberService>();
 builder.Services.AddScoped<IPublisherService, PublisherService>();
 builder.Services.AddSingleton<DbContext>();
@@ -19,6 +21,13 @@ builder.Services.AddAuthentication("AuthCookie").AddCookie("AuthCookie", options
 {
     options.Cookie.Name = "AuthCookie";
     options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/Login";
+});
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("IsStaff",
+        policy => policy.RequireClaim("Role", "True"));
+
 });
 
 var app = builder.Build();

@@ -13,7 +13,8 @@
     <title></title>
 </head>
 <body>
-<div class="row">
+@{await Html.RenderPartialAsync("_NavigationPartial");}
+<div class>
     <table>
         <thead>
         <tr><th>Nazwa</th></tr>
@@ -29,7 +30,7 @@
         }
         </tbody>
     </table>
-    <a class="btn btn-outline-primary mx-2" href ="/Publishers/NewPublisher">Dodaj nowego</a>
+    <a class="btn btn-outline-primary mx-2" href="/Publishers/NewPublisher">Dodaj nowego</a>
 </div>
 </body>
 </html>

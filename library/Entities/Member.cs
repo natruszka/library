@@ -8,6 +8,6 @@ public class Member
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
     public bool IsStaff { get; set; }
-    public SqlMoney Fine { get; set; }
+    public Decimal Fine { get; set; }
     public bool IsBanned { get; set; }
 }

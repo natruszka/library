@@ -1,10 +1,11 @@
 ﻿using library.DTOs;
 using library.Entities;
 using library.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace library.Pages.Authors;
+[Authorize]
 public class ShowAuthors : PageModel
 {
     public List<Author> Authors { get; set; } = new();
@@ -18,9 +19,5 @@ public class ShowAuthors : PageModel
     {
         Authors = new List<Author>(_authorService.GetAllAuthors());
     }
-
-    public RedirectToPageResult OnPost()
-    {
-        return RedirectToPage("/NewAuthor");
-    }
+    
 }

@@ -1,16 +1,39 @@
-﻿<div class="navbar navbar-expand-lg navbar-light bg-light">
+﻿@using System.Security.Claims
+<div class="navbar navbar-expand-lg navbar-light bg-light">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href="/Index">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Autorzy
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                @if (User.Claims.First(c => c.Type == "Role").Value == "True")
+                {
+                    <li>
+                        <a class="dropdown-item" href="/Authors/NewAuthor">Dodaj</a>
+                    </li>
+                }
+                <li>
+                    <a class="dropdown-item" href="/Authors/ShowAuthors">Wyświetl</a>
+                </li>
+            </ul>
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Książki
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                    <a class="dropdown-item" href="/Books/NewBook">Dodaj</a>
-                </li>
+                @if (User.Claims.First(c => c.Type == "Role").Value == "True")
+                {
+                    <li>
+                        <a class="dropdown-item" href="/Books/NewBook">Dodaj</a>
+                    </li>
+                    <li>
+                             <a class="dropdown-item" href="/Books/ShowDetailedBooks">Detaliczny widok</a>
+                         </li>
+                }
                 <li>
                     <a class="dropdown-item" href="/Books/ShowBooks">Wyświetl</a>
                 </li>
@@ -24,9 +47,12 @@
                 Gatunki
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                    <a class="dropdown-item" href="/Genres/NewGenre">Dodaj</a>
-                </li>
+                 @if (User.Claims.First(c => c.Type == "Role").Value == "True")
+                 {
+                     <li>
+                         <a class="dropdown-item" href="/Genres/NewGenre">Dodaj</a>
+                     </li>
+                 }
                 <li>
                     <a class="dropdown-item" href="/Genres/ShowGenres">Wyświetl</a>
                 </li>
@@ -46,14 +72,37 @@
                 Wydawcy
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                    <a class="dropdown-item" href="/Publishers/NewPublisher">Dodaj</a>
-                </li>
+                 @if (User.Claims.First(c => c.Type == "Role").Value == "True")
+                 {
+                     <li>
+                         <a class="dropdown-item" href="/Publishers/NewPublisher">Dodaj</a>
+                     </li>
+                 }
                 <li>
                     <a class="dropdown-item" href="/Publishers/ShowPublishers">Wyświetl</a>
                 </li>
             </ul>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Account/Logout">Wyloguj się</a>
+        </li>
         
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item">
+            <a class="nav-link disabled">
+                @User.Claims.First(c => c.Type == ClaimTypes.Name).Value
+            </a>
+        </li>
+        <li class="nav-item">
+            @if (User.Claims.First(c => c.Type == "Role").Value == "True")
+            {
+                <a class="nav-link disabled"> Pracownik </a>
+            }
+            else
+            {
+                <a class="nav-link disabled">Członek</a>
+            }
+        </li>
     </ul>
 </div>

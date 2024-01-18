@@ -2,11 +2,12 @@
 using library.Database;
 using library.DTOs;
 using library.Entities;
+using library.Services.Interfaces;
 using Npgsql;
 
 namespace library.Services;
 
-public class BorrowService
+public class BorrowService : IBorrowService
 {
     private readonly DbContext _dbContext;
 
@@ -27,7 +28,7 @@ public class BorrowService
                 BookId = reader.GetInt32(0),
                 MemberId = reader.GetInt32(1),
                 BorrowDate = reader.GetDateTime(2),
-                ReturnDate = reader.GetDateTime(3),
+                ReturnDate = reader.IsDBNull(3) ? null : reader.GetDateTime(3),
                 DueDate = reader.GetDateTime(4),
                 Id = reader.GetInt32(5)
             });
@@ -43,6 +44,27 @@ public class BorrowService
                                         $"VALUES ({borrowDto.BookId}, {borrowDto.MemberId}, '{borrowDto.BorrowDate}', '{borrowDto.BorrowDate.AddMonths(1)}');",
             _dbContext.GetConnection());
         await command.ExecuteNonQueryAsync();
+    }
+
+    public ICollection<BorrowView> GetBorrowViews()
+    {
+        var command = new NpgsqlCommand("SELECT * FROM zamowienia_view", _dbContext.GetConnection());
+        var result = new List<BorrowView>();
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            result.Add(new BorrowView()
+            {
+                Id = reader.GetInt32(0),
+                Title = reader.GetString(1),
+                FirstName = reader.GetString(2),
+                LastName = reader.GetString(3),
+                BorrowDate = reader.GetDateTime(4),
+                ReturnDate = reader.IsDBNull(3) ? null : reader.GetDateTime(5),
+                DueDate = reader.GetDateTime(6)
+            });
+        }
+        return result;
     }
 
     public Borrow GetBorrowById(int borrowId)

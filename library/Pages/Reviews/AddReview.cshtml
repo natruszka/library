@@ -1,0 +1,24 @@
+﻿@page
+@model library.Pages.Reviews.AddReview
+
+@{
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Nowa Recenzja";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div>
+    <form method="post">
+        <input type="number" min="1" max="5" placeholder="Ocena" name="Rating" class="form-control"/>
+        <input type="text" placeholder="Recenzja (opcjonalna)" name="ReviewText" class="form-control"/>
+        <input type="submit" class="btn btn-primary mb-2" value="Dodaj"/>
+    </form>
+</div>
+</body>
+</html>
