@@ -37,18 +37,16 @@ public class BorrowService : IBorrowService
         return result;
     }
 
-    public async Task AddNewBorrow(BorrowDto borrowDto)
+    public async Task AddNewBorrow(int userId, string isbn)
     {
-        var command = new NpgsqlCommand($"INSERT INTO wypozyczenia" +
-                                        $"(ksiazka_id, uzytkownik_id, data_wypozyczenia, termin_zwrotu)" +
-                                        $"VALUES ({borrowDto.BookId}, {borrowDto.MemberId}, '{borrowDto.BorrowDate}', '{borrowDto.BorrowDate.AddMonths(1)}');",
+        var command = new NpgsqlCommand($"SELECT wypozycz_ksiazke({userId}, '{isbn}')",
             _dbContext.GetConnection());
         await command.ExecuteNonQueryAsync();
     }
 
     public ICollection<BorrowView> GetBorrowViews()
     {
-        var command = new NpgsqlCommand("SELECT * FROM zamowienia_view", _dbContext.GetConnection());
+        var command = new NpgsqlCommand("SELECT * FROM wypozyczenia_view", _dbContext.GetConnection());
         var result = new List<BorrowView>();
         using var reader = command.ExecuteReader();
         while (reader.Read())
@@ -60,10 +58,38 @@ public class BorrowService : IBorrowService
                 FirstName = reader.GetString(2),
                 LastName = reader.GetString(3),
                 BorrowDate = reader.GetDateTime(4),
-                ReturnDate = reader.IsDBNull(3) ? null : reader.GetDateTime(5),
+                ReturnDate = reader.IsDBNull(5) ? null : reader.GetDateTime(5),
                 DueDate = reader.GetDateTime(6)
             });
         }
+        return result;
+    }
+
+    public ICollection<UserBorrowView> GetUsersBorrow(int userId)
+    {
+        var command = new NpgsqlCommand($"SELECT * FROM uzytkownik_wypozyczenia_view WHERE uzytkownik_id = {userId}",
+            _dbContext.GetConnection());
+        var result = new List<UserBorrowView>();
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            result.Add(new UserBorrowView()
+            {
+                UserId = reader.GetInt32(0),
+                UserName = reader.GetString(1),
+                UserSurname = reader.GetString(2),
+                IsStaff = reader.GetBoolean(3),
+                IsBanned = reader.GetBoolean(4),
+                Id = reader.GetInt32(5),
+                Title = reader.GetString(6),
+                FirstName = reader.GetString(7),
+                LastName = reader.GetString(8),
+                BorrowDate = reader.GetDateTime(9),
+                ReturnDate = reader.IsDBNull(10) ? null : reader.GetDateTime(10),
+                DueDate = reader.GetDateTime(11)
+            });
+        }
+
         return result;
     }
 
@@ -84,5 +110,10 @@ public class BorrowService : IBorrowService
         };
     }
 
-
+    public async Task ReturnBook(int bookId)
+    {
+        var command = new NpgsqlCommand($"SELECT zwroc_ksiazke({bookId})",
+            _dbContext.GetConnection());
+        await command.ExecuteNonQueryAsync();
+    }
 }

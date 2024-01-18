@@ -15,16 +15,16 @@
 <body>
 @{await Html.RenderPartialAsync("_NavigationPartial");}
 <div>
-    <table class="table-striped">
+    <table class="table table-striped">
             <thead>
             <tr>
-                <th>Tytuł</th>
-                <th>Imie Autora</th>
-                <th>Nazwisko Autora</th>
-                <th>Gatunek</th>
-                <th>Wydawnictwo</th>
-                <th>Edycja</th>
-                <th>ISBN</th>
+                <th scope="col">Tytuł</th>
+                <th scope="col">Imie Autora</th>
+                <th scope="col">Nazwisko Autora</th>
+                <th scope="col">Gatunek</th>
+                <th scope="col">Wydawnictwo</th>
+                <th scope="col">Edycja</th>
+                <th scope="col">ISBN</th>
             </tr>
             </thead>>
             <tbody>
@@ -39,12 +39,12 @@
             </tr>
             </tbody>
     </table>
-    <table class="table-striped">
+    <table class="table table-striped">
         <thead>
         <tr>
-            <th>Opinia</th>
-            <th>Treść</th>
-            <th>Użytkownik</th>
+            <th scope="col">Opinia</th>
+            <th scope="col">Treść</th>
+            <th scope="col">Użytkownik</th>
         </tr>
         </thead>>
         <tbody>

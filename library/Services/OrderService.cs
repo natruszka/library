@@ -54,6 +54,31 @@ public class OrderService : IOrderService
         return result;
     }
 
+    public ICollection<UserOrderView> GetUsersOrder(int userId)
+    {
+        var command = new NpgsqlCommand($"SELECT * FROM uzytkownik_zamowienia_view WHERE uzytkownik_id = {userId}", _dbContext.GetConnection());
+        var result = new List<UserOrderView>();
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            result.Add(new UserOrderView()
+            {
+                UserId = reader.GetInt32(0),
+                UserName = reader.GetString(1),
+                UserSurname = reader.GetString(2),
+                IsStaff = reader.GetBoolean(3),
+                IsBanned = reader.GetBoolean(4),
+                Id = reader.GetInt32(5),
+                Title = reader.GetString(6),
+                FirstName = reader.GetString(7),
+                LastName = reader.GetString(8),
+                OrderDate = reader.GetDateTime(9),
+                EndDate = reader.GetDateTime(10)
+            });
+        }
+
+        return result;
+    }
     public async Task AddNewOrder(OrderDto orderDto)
     {
         var command = new NpgsqlCommand(

@@ -15,7 +15,7 @@
 <body>
 @{await Html.RenderPartialAsync("_NavigationPartial");}
 <div>
-    <table class="table-striped">
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>Tytuł</th>
@@ -52,7 +52,10 @@
         </tbody>
     </table>
     <br/>
-    <a class="btn btn-outline-primary mx-2" href="/Books/NewBook">Dodaj nowego</a>
+   @if (User.Claims.First(c => c.Type == "Role").Value == "True")
+   {
+       <a class="btn btn-outline-primary mx-2" href="/Books/NewBook">Dodaj nową</a>
+   }
 </div>
 </body>
 </html>

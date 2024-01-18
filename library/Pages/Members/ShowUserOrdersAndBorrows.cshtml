@@ -2,7 +2,8 @@
 @model library.Pages.Members.ShowUserOrdersAndBorrows
 
 @{
-    Layout = null;
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Użytkownik";
 }
 
 <!DOCTYPE html>
@@ -12,8 +13,81 @@
     <title></title>
 </head>
 <body>
+@{await Html.RenderPartialAsync("_NavigationPartial");}
 <div>
-    
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Imię członka</th>
+            <th>Nazwisko członka</th>
+            <th>Czy pracownik?</th>
+            <th>Czy zbanowany?</th>
+
+        </tr>
+        </thead>>
+        <tbody>
+        <tr>
+            <td>@Model.UserBorrowViews.First().UserName</td>
+            <td>@Model.UserBorrowViews.First().UserSurname</td>
+            <td>@Model.UserBorrowViews.First().IsStaff</td>
+            <td>@Model.UserBorrowViews.First().IsBanned</td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    Wypożyczenia
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Tytuł</th>
+            <th scope="col">Imię autora</th>
+            <th scope="col">Nazwisko autora</th>
+            <th scope="col">Data wypożyczenia</th>
+            <th scope="col">Data zwrotu</th>
+            <th scope="col">Termin zwrotu</th>
+        </tr>
+        </thead>>
+        <tbody>
+        @foreach (var item in Model.UserBorrowViews)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.BorrowDate.ToString("MM/dd/yyyy")</td>
+                <td>@item.ReturnDate?.ToString("MM/dd/yyyy")</td>
+                <td>@item.DueDate.ToString("MM/dd/yyyy")</td>
+                @if(item.ReturnDate is null)
+                {<td><a class="btn btn-outline-primary mx-2" href="/Books/ReturnBook?bookId=@item.Id"> Zwróć</a></td>}
+            </tr>
+        }
+        </tbody>
+    </table>
+    <br/>
+    Zamówienia
+    <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Tytuł</th>
+                <th scope="col">Imię autora</th>
+                <th scope="col">Nazwisko autora</th>
+                <th scope="col">Data rezerwacji</th>
+                <th scope="col">Koniec rezerwacji</th>
+            </tr>
+            </thead>>
+            <tbody>
+            @foreach (var item in Model.UserOrderViews)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.OrderDate.ToString("MM/dd/yyyy")</td>
+                    <td>@item.EndDate.ToString("MM/dd/yyyy")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
 </div>
 </body>
 </html>
