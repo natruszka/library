@@ -24,7 +24,14 @@ public class NewPublisher : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        await _publisherService.AddNewPublisher(Name);
-        return RedirectToPage("/Publishers/ShowPublishers");
+        try
+        {
+            await _publisherService.AddNewPublisher(Name);
+            return RedirectToPage("/Publishers/ShowPublishers");
+        }
+        catch
+        {
+            return RedirectToPage("/Publishers/ShowPublishers");
+        }
     }
 }

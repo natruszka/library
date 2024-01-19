@@ -16,8 +16,8 @@
 @{await Html.RenderPartialAsync("_NavigationPartial");}
 <div>
     <form method="post">
-        <input type="text" placeholder="Imię" name="FirstName" class="form-control"/>
-        <input type="text" placeholder="Nazwisko" name="LastName" class="form-control"/>
+        <input type="text" placeholder="Imię" name="FirstName" class="form-control" required="required"/>
+        <input type="text" placeholder="Nazwisko" name="LastName" class="form-control" required="required"/>
         <input type="submit" class="btn btn-primary" value="Dodaj"/>
     </form>
 </div>

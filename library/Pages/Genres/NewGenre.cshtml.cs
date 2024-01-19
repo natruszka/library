@@ -24,8 +24,15 @@ public class NewGenre : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        await _genreService.AddNewGenre(NewGenreDto);
-        return RedirectToPage("/Genres/ShowGenres");
+        try
+        {
+            await _genreService.AddNewGenre(NewGenreDto);
+            return RedirectToPage("/Genres/ShowGenres");
+        }
+        catch
+        {
+            return RedirectToPage("/Genres/ShowGenres");
+        }
     }
     
 }

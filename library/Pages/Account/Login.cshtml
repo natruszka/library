@@ -14,8 +14,8 @@
 <body>
 <div>
     <form method="post" class="d-flex flex-column gap-2 col-4">
-        <input type="text" asp-for="NewRegister.Username" placeholder="Nazwa użytkownika" name="Username" class="form-control"/>
-        <input type="password" asp-for="NewRegister.Password" placeholder="Haslo" name="Password" class="form-control"/>
+        <input type="text" asp-for="NewRegister.Username" placeholder="Nazwa użytkownika" name="Username" class="form-control" required="required"/>
+        <input type="password" asp-for="NewRegister.Password" placeholder="Haslo" name="Password" class="form-control"  required="required"/>
         <input type="submit" class="btn btn-primary" value="Login"/>
     </form>
     <br/>
