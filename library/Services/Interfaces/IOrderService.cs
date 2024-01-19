@@ -8,6 +8,6 @@ public interface IOrderService
     IList<Order> GetAllOrders();
     ICollection<OrderView> GetOrderViews();
     ICollection<UserOrderView> GetUsersOrder(int userId);
-    Task AddNewOrder(OrderDto orderDto);
+    Task AddNewOrder(int userId, string isbn);
     Order GetOrderById(int orderId);
 }

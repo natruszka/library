@@ -19,5 +19,4 @@ public class ShowBooks : PageModel
     {
         BookViews = new List<BookView>(_bookService.GetAllBooks());
     }
-    
 }

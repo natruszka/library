@@ -79,11 +79,10 @@ public class OrderService : IOrderService
 
         return result;
     }
-    public async Task AddNewOrder(OrderDto orderDto)
+    public async Task AddNewOrder(int userId, string isbn)
     {
         var command = new NpgsqlCommand(
-            $"INSERT INTO public.zamowienia(uzytkownik_id, ksiazka_id, data_rezerwacji, status)" +
-            $"VALUES ({orderDto.MemberId}, {orderDto.BookId}, '{orderDto.OrderDate}', {(int)orderDto.Status});",
+            $"SELECT zarezerwuj_ksiazke({userId}, '{isbn}');",
             _dbContext.GetConnection());
         await command.ExecuteNonQueryAsync();
     }

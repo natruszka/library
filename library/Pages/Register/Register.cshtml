@@ -21,8 +21,18 @@
         <input type="checkbox" asp-for="NewMember.IsStaff" name="IsStaff" id="IsStaff" class="form-check-input" value="true"/>
         <input type="text" asp-for="NewRegister.Username" name="Username" placeholder="Nazwa użytkownika" class="form-control"/>
         <input type="password" asp-for="NewRegister.Password" name="Password" placeholder="Hasło" class="form-control"/>
-        <input type="submit" class="btn btn-primary" value="Login"/>
+        <input type="submit" class="btn btn-primary" value="Zarejestruj"/>
     </form>
+    <div class="col-sm-8 d-flex justify-content-center">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header" style="background-color: #dc3545; font-weight: bolder; color: whitesmoke">UWAGA</div>
+                <div class="card-body">
+                    <p>Radzimy nie używać standardowego hasła - nie mieliśmy środków na programistę, który umie w cybersecurity.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
