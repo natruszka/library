@@ -14,27 +14,10 @@ public class ReviewService : IReviewService
     {
         _dbContext = dbContext;
     }
-
-    public IList<Review> GetAllReviews()
-    {
-        var command = new NpgsqlCommand("SELECT * FROM recenzje", _dbContext.GetConnection());
-        var result = new List<Review>();
-        using var reader = command.ExecuteReader();
-        while (reader.Read())
-        {
-            result.Add(new Review()
-            {
-                Id = reader.GetInt32(0),
-                MemberId = reader.GetInt32(1),
-                Rating = reader.GetInt32(2),
-                ReviewText = reader.IsDBNull(3)? String.Empty : reader.GetString(3),
-                ReviewDate = reader.GetDateTime(4),
-                BookIsbn = reader.GetString(5)
-            });
-        }
-        return result;
-    }
-
+    /// <summary>
+    /// Dodaje recenzje książki
+    /// </summary>
+    /// <param name="reviewDto">Obiekt transferu danych dla recenzji</param>
     public async Task AddNewReview(ReviewDto reviewDto)
     {
         var command = new NpgsqlCommand($"INSERT INTO recenzje" +
@@ -43,7 +26,10 @@ public class ReviewService : IReviewService
             _dbContext.GetConnection());
         await command.ExecuteNonQueryAsync();
     }
-
+    /// <summary>
+    /// Pobiera wszystkie recenzje z bazy
+    /// </summary>
+    /// <returns>Kolekcja encji recenzji</returns>
     public ICollection<ReviewsView> GetAllReviewsViews()
     {
         var command = new NpgsqlCommand("SELECT * FROM recenzje_view", _dbContext.GetConnection());

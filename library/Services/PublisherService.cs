@@ -13,6 +13,10 @@ public class PublisherService : IPublisherService
     {
         _dbContext = dbContext;
     }
+    /// <summary>
+    /// Pobiera wszystkie wydawnictwa
+    /// </summary>
+    /// <returns>Kolekcja encji wydawnictwa</returns>
     public ICollection<Publisher> GetAllPublishers()
     {
         var command = new NpgsqlCommand("SELECT * FROM wydawcy", _dbContext.GetConnection());
@@ -28,14 +32,10 @@ public class PublisherService : IPublisherService
         }
         return result;
     }
-
-    public Publisher GetPublisherById(int id)
-    {
-        var command = new NpgsqlCommand($"SELECT * FROM wydawcy WHERE wydawca_id = {id};",
-            _dbContext.GetConnection());
-        using var reader = command.ExecuteReader();
-        return new Publisher() { Id = reader.GetInt32(0), Name = reader.GetString(1) };
-    }
+    /// <summary>
+    /// Dodaje nowe wydawnictwo
+    /// </summary>
+    /// <param name="name">Nazwa wydawnictwa</param>
     public async Task AddNewPublisher(String name)
     {
         var command = new NpgsqlCommand($"INSERT INTO wydawcy (wydawca_nazwa) " +

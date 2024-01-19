@@ -15,35 +15,22 @@ public class BorrowService : IBorrowService
     {
         _dbContext = dbContext;
     }
-
-    public IList<Borrow> GetAllBorrows()
-    {
-        var command = new NpgsqlCommand("SELECT * FROM wypozyczenia", _dbContext.GetConnection());
-        var result = new List<Borrow>();
-        using var reader = command.ExecuteReader();
-        while (reader.Read())
-        {
-            result.Add(new Borrow()
-            {
-                BookId = reader.GetInt32(0),
-                MemberId = reader.GetInt32(1),
-                BorrowDate = reader.GetDateTime(2),
-                ReturnDate = reader.IsDBNull(3) ? null : reader.GetDateTime(3),
-                DueDate = reader.GetDateTime(4),
-                Id = reader.GetInt32(5)
-            });
-        }
-
-        return result;
-    }
-
+    
+/// <summary>
+/// Dodaje wypożyczenie
+/// </summary>
+/// <param name="userId">ID użytkownika</param>
+/// <param name="isbn">ISBN książki</param>
     public async Task AddNewBorrow(int userId, string isbn)
     {
         var command = new NpgsqlCommand($"SELECT wypozycz_ksiazke({userId}, '{isbn}')",
             _dbContext.GetConnection());
         await command.ExecuteNonQueryAsync();
     }
-
+/// <summary>
+/// Pobiera widoki wypożyczeń z bazy
+/// </summary>
+/// <returns>Kolekcja widoków wypożyczeń z informacją o użytkowniku</returns>
     public ICollection<BorrowView> GetBorrowViews()
     {
         var command = new NpgsqlCommand("SELECT * FROM wypozyczenia_view", _dbContext.GetConnection());
@@ -64,7 +51,11 @@ public class BorrowService : IBorrowService
         }
         return result;
     }
-
+/// <summary>
+/// Pobiera wypożyczenia danego użytkownika
+/// </summary>
+/// <param name="userId">ID użytkownika</param>
+/// <returns>Kolekcja wypożyczeń z kontekstem użytkownika</returns>
     public ICollection<UserBorrowView> GetUsersBorrow(int userId)
     {
         var command = new NpgsqlCommand($"SELECT * FROM uzytkownik_wypozyczenia_view WHERE uzytkownik_id = {userId}",
@@ -92,24 +83,10 @@ public class BorrowService : IBorrowService
 
         return result;
     }
-
-    public Borrow GetBorrowById(int borrowId)
-    {
-        var command = new NpgsqlCommand($"SELECT * FROM wypozyczenia WHERE wypozyczenie_id = {borrowId}",
-            _dbContext.GetConnection());
-        var result = new List<Borrow>();
-        using var reader = command.ExecuteReader();
-        return new Borrow()
-        {
-            BookId = reader.GetInt32(0),
-            MemberId = reader.GetInt32(1),
-            BorrowDate = reader.GetDateTime(2),
-            ReturnDate = reader.GetDateTime(3),
-            DueDate = reader.GetDateTime(4),
-            Id = reader.GetInt32(5)
-        };
-    }
-
+/// <summary>
+/// Zwracanie książki
+/// </summary>
+/// <param name="bookId">ID książki do zwrotu</param>
     public async Task ReturnBook(int bookId)
     {
         var command = new NpgsqlCommand($"SELECT zwroc_ksiazke({bookId})",

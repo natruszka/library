@@ -13,7 +13,10 @@ public class BookService : IBookService
     {
         _context = context;
     }
-
+/// <summary>
+/// Listuje wszystkie książki wraz z ich średnią i sumą ocen.
+/// </summary>
+/// <returns>Kolekcja widoków książki i ich ocen</returns>
     public ICollection<BookView> GetAllBooks()
     {
         var command = new NpgsqlCommand("SELECT * FROM ksiazki_group_view", _context.GetConnection());
@@ -42,7 +45,10 @@ public class BookService : IBookService
             return result;
         }
     }
-
+/// <summary>
+/// Pobiera informacje na temat każdego egzemplarza.
+/// </summary>
+/// <returns>Kolakcja widoków książek</returns>
     public ICollection<BookDetailedView> GetDetailsAllBooks()
     {
         var command = new NpgsqlCommand("SELECT * FROM ksiazki_view", _context.GetConnection());
@@ -72,6 +78,11 @@ public class BookService : IBookService
             return result;
         }
     }
+/// <summary>
+/// Dodaje nową książkę do bazy
+/// </summary>
+/// <param name="bookDto">Obiekt transferu danych dla książki</param>
+/// <exception cref="NpgsqlException">Wyjątek w przypadku niepowodzenia</exception>
     public async Task AddNewBook(BookDto bookDto)
     {
         var command = new NpgsqlCommand($"SELECT public." +
@@ -80,7 +91,11 @@ public class BookService : IBookService
                                         $" '{bookDto.Isbn}')", _context.GetConnection());
         var res = await command.ExecuteScalarAsync() ?? throw new NpgsqlException("Could not add book.");
     }
-
+/// <summary>
+/// Pobiera książkę na podstawie ISBN
+/// </summary>
+/// <param name="isbn">ISBN książki</param>
+/// <returns>Kolekcja detalicznych widoków książek i ich recenzji</returns>
     public ICollection<BookMoreInfo> GetBookByIsbn(string isbn)
     {
         var command = new NpgsqlCommand($"SELECT * FROM public.ksiazki_detailed_view WHERE isbn = '{isbn}';", _context.GetConnection());

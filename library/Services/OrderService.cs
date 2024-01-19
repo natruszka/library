@@ -14,26 +14,10 @@ public class OrderService : IOrderService
     {
         _dbContext = dbContext;
     }
-
-    public IList<Order> GetAllOrders()
-    {
-        var command = new NpgsqlCommand("SELECT * FROM zamowienia", _dbContext.GetConnection());
-        var result = new List<Order>();
-        using var reader = command.ExecuteReader();
-        while (reader.Read())
-        {
-            result.Add(new Order()
-            {
-                MemberId = reader.GetInt32(0),
-                BookId = reader.GetInt32(1),
-                OrderDate = reader.GetDateTime(2),
-                EndDate =reader.GetDateTime(3),
-                Id = reader.GetInt32(4)
-            });
-        }
-        return result;
-    }
-
+/// <summary>
+/// Pobiera wszystkie rezerwacje
+/// </summary>
+/// <returns>Kolekcja widoków rezerwacji</returns>
     public ICollection<OrderView> GetOrderViews()
     {
         var command = new NpgsqlCommand("SELECT * FROM zamowienia_view", _dbContext.GetConnection());
@@ -53,7 +37,11 @@ public class OrderService : IOrderService
         }
         return result;
     }
-
+/// <summary>
+/// Zwraca rezerwacje użytkownika
+/// </summary>
+/// <param name="userId">ID użytkownika</param>
+/// <returns>Kolekcja widoków rezerwacji z kontekstem użytkownika</returns>
     public ICollection<UserOrderView> GetUsersOrder(int userId)
     {
         var command = new NpgsqlCommand($"SELECT * FROM uzytkownik_zamowienia_view WHERE uzytkownik_id = {userId}", _dbContext.GetConnection());
@@ -79,6 +67,11 @@ public class OrderService : IOrderService
 
         return result;
     }
+/// <summary>
+/// Dodanie rezerwacji
+/// </summary>
+/// <param name="userId">ID użytkownika</param>
+/// <param name="isbn">ISBN książki</param>
     public async Task AddNewOrder(int userId, string isbn)
     {
         var command = new NpgsqlCommand(
@@ -86,19 +79,5 @@ public class OrderService : IOrderService
             _dbContext.GetConnection());
         await command.ExecuteNonQueryAsync();
     }
-
-    public Order GetOrderById(int orderId)
-    {
-        var command = new NpgsqlCommand($"SELECT * FROM uzytkownicy WHERE uzytkownik_id = {orderId}",
-            _dbContext.GetConnection());
-        using var reader = command.ExecuteReader();
-        return new Order()
-        {
-            MemberId = reader.GetInt32(0),
-            BookId = reader.GetInt32(1),
-            OrderDate = reader.GetDateTime(2),
-            EndDate =reader.GetDateTime(3),
-            Id = reader.GetInt32(4)
-        };
-    }
+    
 }

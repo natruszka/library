@@ -13,7 +13,10 @@ public class MemberService
     {
         _dbContext = dbContext;
     }
-
+/// <summary>
+/// Pobiera wszystkich użytkowników z bazy
+/// </summary>
+/// <returns>Kolekcja encji typu użytkownik</returns>
     public ICollection<Member> GetAllMembers()
     {
         var command = new NpgsqlCommand("SELECT * FROM uzytkownicy;", _dbContext.GetConnection());
@@ -34,7 +37,13 @@ public class MemberService
 
         return result;
     }
-    
+    /// <summary>
+    /// Dodaje nowego użytkownika poprzez rejestracje
+    /// </summary>
+    /// <param name="memberDto">Obiekt transferu danych dla użytkownika</param>
+    /// <param name="registerDto">Obiekt transferu danych dla danych logowania</param>
+    /// <returns>Zwraca "OK" w przypadku powodzenia</returns>
+    /// <exception cref="NpgsqlException">W przypadku niepowodzenia rzucany jest wyjątek</exception>
     public async Task<string> AddNewMember(MemberDto memberDto, RegisterDto registerDto)
     {
         var command = new NpgsqlCommand(
@@ -43,7 +52,12 @@ public class MemberService
         var res = await command.ExecuteScalarAsync() ?? throw new NpgsqlException("Something went wrong.");
         return (string) res;
     }
-    
+    /// <summary>
+    /// Logowanie do serwisu
+    /// </summary>
+    /// <param name="registerDto">Obiekt transferu danych dla danych logowania</param>
+    /// <returns>Użytkownik o podanych danych logowania</returns>
+    /// <exception cref="NpgsqlException">W przypadku niepowodzenia rzuca wyjątek</exception>
     public async Task<Member?> Login(RegisterDto registerDto)
     {
         var command = new NpgsqlCommand($"SELECT uzytkownik_id FROM login WHERE login = '{registerDto.Username}' AND haslo = '{registerDto.Password}'",
@@ -51,6 +65,11 @@ public class MemberService
         var id = await command.ExecuteScalarAsync() ?? throw new NpgsqlException("Could not get user");
         return GetMemberById((int)id);
     }
+    /// <summary>
+    /// Pobiera użytkownika o podanym ID
+    /// </summary>
+    /// <param name="memberId">ID użytkownika</param>
+    /// <returns>Użytkownik o podanym ID</returns>
     public Member? GetMemberById(int memberId)
     {
         var command = new NpgsqlCommand($"SELECT * FROM uzytkownicy WHERE uzytkownik_id = {memberId}",

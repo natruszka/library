@@ -14,7 +14,10 @@ public class GenreService : IGenreService
     {
         _dbContext = dbContext;
     }
-
+/// <summary>
+/// Pobiera wszystkie gatunki z bazy
+/// </summary>
+/// <returns>Kolekcja encji gatunek</returns>
     public ICollection<Genre> GetAllGenres()
     {
         var command = new NpgsqlCommand("SELECT * FROM gatunki", _dbContext.GetConnection());
@@ -31,19 +34,11 @@ public class GenreService : IGenreService
         }
         return result;
     }
-
-    public ICollection<String> GetAllGenresNames()
-    {
-        var command = new NpgsqlCommand("SELECT * FROM gatunki", _dbContext.GetConnection());
-        var result = new List<String>();
-        using var reader = command.ExecuteReader();
-        while (reader.Read())
-        {
-            result.Add(reader.IsDBNull(2) ? string.Empty : reader.GetString(2));
-        }
-        return result;
-    }
-
+    
+/// <summary>
+/// Dodaje do bazy gatunek
+/// </summary>
+/// <param name="genreDto">Obiekt transferu danych dla gatunku</param>
     public async Task AddNewGenre(GenreDto genreDto)
     {
         var command = new NpgsqlCommand($"INSERT INTO gatunki (gatunek_nazwa, gatunek_opis)" +

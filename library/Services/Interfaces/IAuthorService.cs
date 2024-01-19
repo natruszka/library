@@ -7,6 +7,4 @@ public interface IAuthorService
 {
     ICollection<Author> GetAllAuthors();
     Task AddNewAuthor(AuthorDto authorDto);
-    Author GetAuthorById(int authorId);
-    ICollection<BookDto> GetAuthorDetailedInfo(int authorId);
 }
